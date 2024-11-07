@@ -17,11 +17,20 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
+
+from rest_framework.schemas import get_schema_view
+
+schema_view = get_schema_view(title = 'restapi')
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    #path('api/store/', include('ecommerceapp.urls')),
+    path('api/', include('ecommerceapp.urls')),
+    path('swaggers/', schema_view)
+
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    

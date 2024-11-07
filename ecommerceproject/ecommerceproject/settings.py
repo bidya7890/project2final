@@ -39,10 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "ecommerceapp",
     "rest_framework",
-    ""
+    "corsheaders",
+    "rest_framework.authtoken",
+    "rest_framework_swagger",
+    "drf_yasg"
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -131,9 +135,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 import os
 
-# Define the URL endpoint for media files
-MEDIA_URL = '/media/'
+CORS_ALLOW_ALL_ORIGINS = True
 
-# Define the path on the server to store uploaded media files
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES':['rest_framework.throttling.AnonRateThrottle',
+                                'rest_framework.throttling.UserRateThrottle'
+                                
+                                ],
+
+    'DEFAULT_THROTTLE_RATES':
+    {
+        'anon':'500/day',
+        'user':'1000/day'
+    }
+}
+
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
